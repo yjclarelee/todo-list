@@ -11,8 +11,7 @@ export default function Main() {
     // input when todoItem exists
     if (todoItem) {
       // prevent same item
-      // FIXME: not working
-      if (!todoList.includes(todoItem)) {
+      if (!todoList.some(data => data.todo === todoItem.todo)) {
         setTodoList([...todoList, todoItem]);
       }
         setTodoItem({});
