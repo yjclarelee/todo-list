@@ -25,7 +25,6 @@ export default function Main() {
   }
 
   const listItem = (idx) => {
-    console.log(todoList);
     return (
       <div key={`list-${idx}`} style={{ display: 'flex' }}>
         <button onClick={() => handleStrike(idx)}>V</button>
