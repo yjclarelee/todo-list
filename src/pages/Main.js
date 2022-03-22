@@ -3,8 +3,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function Main() {
-  const [todoItem, setTodoItem] = React.useState({todo: '', isStrike: false});
-  const [todoList, setTodoList] = React.useState([]);
+  const [todoItem, setTodoItem] = React.useState({ todo: '', isStrike: false });
+  const [todoList, setTodoList] = React.useState(JSON.parse(localStorage.getItem('todoList')) || []);
+
   // string is null -> do nothing
   // string is in array -> setTodo to ''
   const handleInput = () => {
@@ -13,8 +14,9 @@ export default function Main() {
       // prevent same item
       if (!todoList.some(data => data.todo === todoItem.todo)) {
         setTodoList([...todoList, todoItem]);
+        localStorage.setItem('todoList', JSON.stringify([...todoList, todoItem]));
       }
-        setTodoItem({});
+      setTodoItem({});
     }
   };
 
@@ -29,7 +31,10 @@ export default function Main() {
       <div key={`list-${idx}`} style={{ display: 'flex' }}>
         <button onClick={() => handleStrike(idx)}>V</button>
         <li key={idx}>{todoList[idx].isStrike ? <del>{todoList[idx].todo}</del> : todoList[idx].todo}</li>
-        <button onClick={() => setTodoList([...todoList.filter(item => item.todo !== todoList[idx].todo)])}>X</button>
+        <button onClick={() => {
+          setTodoList([...todoList.filter(item => item.todo !== todoList[idx].todo)]);
+          localStorage.setItem('todoList', JSON.stringify(todoList.filter(item => item.todo !== todoList[idx].todo)));
+        }}>X</button>
       </div>  
     )
   }
